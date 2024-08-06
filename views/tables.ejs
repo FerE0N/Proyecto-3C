@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Tables in <%= dbName %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Tablas en: <%= dbName %></h1>
+        <form action="/databases/<%= dbName %>/tables/create" method="POST">
+            <input class="borrar" type="text" name="tableName">
+            <input class="borrar" type="text" name="columns">
+            <button type="submit">Crear Tabla</button>
+        </form>
+        <h2>Tablas Existentes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% tables.forEach(table => { %>
+                    <tr>
+                        <td><%= table[`Tables_in_${dbName}`] %></td>
+                        <td>
+                            <form action="/databases/<%= dbName %>/tables/<%= table[`Tables_in_${dbName}`] %>/delete" method="POST" style="display:inline;">
+                                <button type="submit">Eliminar</button>
+                            </form>
+                            <button onclick="location.href='/databases/<%= dbName %>/tables/<%= table[`Tables_in_${dbName}`] %>/records'">Administrar Registros</button>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

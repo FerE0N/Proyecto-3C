@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Records in <%= tableName %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Registros en: <%= tableName %></h1>
+        <form action="/databases/<%= dbName %>/tables/<%= tableName %>/records/insert" method="POST">
+            <input class="borrar" type="text" name="record">
+            <button type="submit">Insertar nuevo Registro</button>
+        </form>
+        <h2>Registros Existentes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <% if (records.length > 0) { %>
+                        <% Object.keys(records[0]).forEach(key => { %>
+                            <th><%= key %></th>
+                        <% }); %>
+                        <th>Acciones</th>
+                    <% } %>
+                </tr>
+            </thead>
+            <tbody>
+                <% records.forEach(record => { %>
+                    <tr>
+                        <% Object.values(record).forEach((value, index) => { %>
+                            <td><%= value %></td>
+                        <% }); %>
+                        <td>
+                            <form action="/databases/<%= dbName %>/tables/<%= tableName %>/records/delete" method="POST" style="display:inline;">
+                                <input type="hidden" name="id" value="<%= record[Object.keys(record)[0]] %>">
+                                <input type="hidden" name="columnName" value="<%= Object.keys(record)[0] %>">
+                                <button type="submit">Eliminar</button>
+                            </form>
+                            <form action="/databases/<%= dbName %>/tables/<%= tableName %>/records/update" method="POST" style="display:inline;">
+                                <input type="hidden" name="id" value="<%= record[Object.keys(record)[0]] %>">
+                                <input type="hidden" name="columnName" value="<%= Object.keys(record)[0] %>"> <!-- Nombre de la columna primaria -->
+                                <input type="text" name="updates" placeholder="Actualizar (Ej: name='Jane Doe')">
+                                <button type="submit">Actualizar</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

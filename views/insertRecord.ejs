@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insertar Registro en <%= tableName %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Insertar Nuevo Registro en: <%= tableName %></h1>
+        <form action="/databases/<%= dbName %>/tables/<%= tableName %>/records/insert" method="POST">
+            <div id="values">
+                <input type="text" name="values[]" placeholder="Valor" required>
+            </div>
+            <button type="button" onclick="addValue()">Agregar Valor</button>
+            <button type="submit">Insertar Registro</button>
+        </form>
+    </div>
+    <script>
+        function addValue() {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'values[]';
+            input.placeholder = 'Valor';
+            input.required = true;
+            document.getElementById('values').appendChild(input);
+        }
+    </script>
+</body>
+</html>
+
+
